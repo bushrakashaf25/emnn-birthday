@@ -1,0 +1,743 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Emann's Birthday Wonderland ??</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --pink: #ed83ad;
+    --dark-pink: #bc4f83;
+    --light-pink: #fff0f6;
+    --purple: #e9ddff;
+    --text: #814668;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    color: var(--text);
+    text-align: center;
+    background: linear-gradient(
+        135deg, #ffe8f1, #fff9fc, #eee4ff, #ffeaf0
+    );
+    background-size: 300% 300%;
+    animation: backgroundMove 12s ease infinite;
+    overflow-x: hidden;
+}
+
+@keyframes backgroundMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.page {
+    display: none;
+    min-height: 100vh;
+    padding: 32px 15px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.page.active {
+    display: flex;
+    animation: appear 0.7s ease;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    width: 100%;
+    max-width: 650px;
+    padding: 28px 22px;
+    background: rgba(255,255,255,0.84);
+    border: 2px solid white;
+    border-radius: 30px;
+    box-shadow: 0 12px 35px #c77da522;
+    position: relative;
+}
+
+h1, h2, h3 {
+    font-family: Georgia, serif;
+}
+
+h1 {
+    font-size: clamp(36px, 8vw, 58px);
+    margin: 15px 0;
+}
+
+h2 {
+    color: var(--dark-pink);
+}
+
+p {
+    line-height: 1.8;
+}
+
+.name {
+    color: #e45d99;
+    font-style: italic;
+}
+
+.tag {
+    letter-spacing: 2px;
+    font-size: 12px;
+    color: #bc6790;
+}
+
+.big {
+    font-size: 85px;
+    margin: 12px 0;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+button {
+    background: var(--pink);
+    color: white;
+    border: 2px solid white;
+    border-radius: 28px;
+    padding: 13px 21px;
+    margin: 7px 4px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 5px 12px #d86a9825;
+    transition: 0.25s;
+}
+
+button:hover {
+    background: var(--dark-pink);
+    transform: translateY(-2px);
+}
+
+input {
+    width: 90%;
+    max-width: 350px;
+    padding: 13px;
+    margin: 14px 0;
+    border: 2px solid #f1b2ce;
+    border-radius: 14px;
+    font-size: 16px;
+    outline-color: var(--pink);
+}
+
+.small {
+    font-size: 12px;
+}
+
+.pill {
+    display: inline-block;
+    padding: 7px 13px;
+    background: #fff0f6;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+#letter {
+    display: none;
+    text-align: left;
+    background: #fff4f8;
+    border: 1px dashed #e9a1bf;
+    padding: 20px;
+    border-radius: 20px;
+    line-height: 1.9;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+    margin: 20px 0;
+}
+
+.photo {
+    background: white;
+    padding: 8px;
+    border-radius: 15px;
+    box-shadow: 0 4px 14px #b65b8120;
+    transform: rotate(-1deg);
+}
+
+.photo:nth-child(even) {
+    transform: rotate(1deg);
+}
+
+.photo img {
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.photo p {
+    margin: 6px 0 2px;
+    font-size: 12px;
+}
+
+.gift-box {
+    font-size: 100px;
+    cursor: pointer;
+}
+
+#giftMessage {
+    display: none;
+    background: #fff2f8;
+    border-radius: 20px;
+    padding: 16px;
+    animation: appear 0.8s ease;
+}
+
+.cake {
+    font-size: 105px;
+}
+
+.heart {
+    position: fixed;
+    bottom: -40px;
+    z-index: 10;
+    pointer-events: none;
+    animation: floatUp 5s linear forwards;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.footer {
+    font-size: 12px;
+    margin-top: 22px;
+    color: #b07896;
+}
+
+.music-button {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    z-index: 20;
+    font-size: 12px;
+    padding: 10px 13px;
+    margin: 0;
+}
+
+@media (max-width: 380px) {
+    .card { padding: 23px 14px; }
+    .photo img { height: 115px; }
+    button { padding: 12px 15px; }
+}
+</style>
+</head>
+
+<body>
+
+<button class="music-button" onclick="toggleMusic()">
+    ?? Music: OFF
+</button>
+
+<!-- PAGE 1: WELCOME -->
+<section class="page active" id="p1">
+<div class="card">
+    <div class="big">????</div>
+    <p class="tag">A LITTLE WORLD MADE JUST FOR YOU</p>
+    <p>14 . 10 . 2026</p>
+
+    <h1>Happy Birthday<br>
+        <span class="name">Emann! ??</span>
+    </h1>
+
+    <p>
+        A little teddy bear, a little magic,
+        and a whole lot of love. ??
+    </p>
+
+    <div>?? ?? ?? ??</div>
+
+    <p>Someone special made you a surprise...</p>
+
+    <button onclick="go(2)">
+        Enter Your Wonderland ???
+    </button>
+
+    <div class="footer">Made with love, just for Emann ??</div>
+</div>
+</section>
+
+<!-- PAGE 2: SECRET PASSWORD -->
+<section class="page" id="p2">
+<div class="card">
+    <div class="big">????</div>
+    <h2>Secret Bestie Club!</h2>
+
+    <p>
+        Only the birthday girl can enter! ??
+    </p>
+
+    <p class="small">
+        Hint: Your name + your birthday year ??
+    </p>
+
+    <input id="password" type="password"
+        placeholder="Enter secret password">
+
+    <br>
+
+    <button onclick="unlock()">
+        Unlock My Surprise ??
+    </button>
+
+    <p id="error" class="small"></p>
+
+    <p>?? A little secret is waiting inside...</p>
+</div>
+</section>
+
+<!-- PAGE 3: MAIN PAGE -->
+<section class="page" id="p3">
+<div class="card">
+    <div class="pill">?? HAPPY BIRTHDAY, BESTIE ??</div>
+
+    <div class="big">????</div>
+
+    <h1>It's YOUR day,<br>
+        <span class="name">Emann!</span>
+    </h1>
+
+    <p>
+        You make ordinary days feel special.
+        Today, the whole little universe celebrates you! ??
+    </p>
+
+    <p>Choose your surprise, birthday girl! ?</p>
+
+    <button onclick="go(4)">?? Your Letter</button>
+    <button onclick="go(5)">?? Our Gallery</button>
+    <button onclick="go(6)">?? Birthday Cake</button>
+    <button onclick="go(7)">?? Secret Gift</button>
+
+    <div class="footer">?? Powered by friendship & pink clouds ??</div>
+</div>
+</section>
+
+<!-- PAGE 4: FRIENDSHIP LETTER -->
+<section class="page" id="p4">
+<div class="card">
+    <div class="big">????</div>
+    <h2>A Letter for My Emann</h2>
+
+    <p>There's something I want you to know...</p>
+
+    <button onclick="showLetter()">Open My Letter ??</button>
+
+    <div id="letter">
+        <h3>Dear Emann, ????</h3>
+
+        <p>
+            Happy Birthday to my beautiful best friend!
+            ????
+        </p>
+
+        <p>
+            I honestly don't know how to explain how
+            special you are to me. I'm so grateful that
+            life gave me a friend like you. You are one
+            of those people who make life a little
+            brighter just by being in it.
+        </p>
+
+        <p>
+            Thank you for all the laughs, the random
+            conversations, the memories, and the little
+            moments that I hope we'll remember forever.
+        </p>
+
+        <p>
+            May Allah protect you always, fill your life
+            with happiness, give you success, and make
+            your beautiful dreams come true. Ameen. ??
+        </p>
+
+        <p>
+            I hope we keep growing, achieving our dreams,
+            making silly memories, and being there for
+            each other through every chapter of life.
+        </p>
+
+        <p>
+            You deserve all the love, peace, kindness,
+            and happiness this world can offer.
+            Never forget how precious you are, bestie!
+        </p>
+
+        <h3>Love you forever, Emann! ??</h3>
+
+        <p>
+            Always your bestie,<br>
+            Your partner in all the silly things. ??
+        </p>
+    </div>
+
+    <button onclick="go(3)">Back Home ??</button>
+</div>
+</section>
+
+<!-- PAGE 5: PHOTO GALLERY -->
+<section class="page" id="p5">
+<div class="card">
+    <div class="big">????</div>
+    <h2>Our Little Memory Book</h2>
+
+    <p>
+        Little moments, big memories, and a friendship
+        I treasure. ??
+    </p>
+
+    <div class="gallery">
+        <div class="photo">
+            <img src="photo1.jpg" alt="Bestie memory">
+            <p>My favourite human ??</p>
+        </div>
+
+        <div class="photo">
+            <img src="photo2.jpg" alt="Happy memory">
+            <p>Our silly moments ??</p>
+        </div>
+
+        <div class="photo">
+            <img src="photo3.jpg" alt="Sweet memory">
+            <p>Little happy days ??</p>
+        </div>
+
+        <div class="photo">
+            <img src="photo4.jpg" alt="Best friends">
+            <p>Us, always ??</p>
+        </div>
+    </div>
+
+    <p class="small">
+        Add your real photos to make this page yours!
+    </p>
+
+    <button onclick="go(3)">Back Home ??</button>
+</div>
+</section>
+
+<!-- PAGE 6: BIRTHDAY CAKE -->
+<section class="page" id="p6">
+<div class="card">
+    <div class="big">??</div>
+    <h2>Make a Wish, Emann!</h2>
+
+    <p>
+        Close your eyes for a moment.
+        Think of something beautiful. ?
+    </p>
+
+    <div class="cake" id="cake">??</div>
+
+    <p id="cakeText">
+        Your special birthday cake is ready!
+    </p>
+
+    <button onclick="blowCandles()">
+        Blow the Candles ???
+    </button>
+
+    <button onclick="relightCandles()">
+        Light Them Again ?
+    </button>
+
+    <p class="small">
+        May your wishes lead you to beautiful things. ??
+    </p>
+
+    <button onclick="go(3)">Back Home ??</button>
+</div>
+</section>
+
+<!-- PAGE 7: GIFT REVEAL -->
+<section class="page" id="p7">
+<div class="card">
+    <h2>A Tiny Gift for You ??</h2>
+
+    <p>Tap the present to open your final surprise!</p>
+
+    <div class="gift-box" onclick="revealGift()">??</div>
+
+    <button onclick="revealGift()">Open Your Gift ??</button>
+
+    <div id="giftMessage">
+        <div class="big">??????</div>
+
+        <h2>Surprise, Emann!</h2>
+
+        <p>
+            If I could wrap up all the happiness in the
+            world and give it to you, I would. ??
+        </p>
+
+        <p>
+            May this new chapter bring you confidence,
+            wonderful opportunities, lots of laughter,
+            and beautiful reasons to smile.
+        </p>
+
+        <p>
+            You're not just another person in my life.
+            You're my bestie, and I'm so grateful for you.
+        </p>
+
+        <h2>HAPPY BIRTHDAY! ??</h2>
+
+        <p>14 October 2026 — your special day! ??</p>
+    </div>
+
+    <button onclick="go(8)">One Last Surprise ??</button>
+    <button onclick="go(3)">Back Home ??</button>
+</div>
+</section>
+
+<!-- PAGE 8: FINAL PAGE -->
+<section class="page" id="p8">
+<div class="card">
+    <div class="big">??????</div>
+
+    <h1>Stay Sweet,<br>
+        <span class="name">Emann!</span>
+    </h1>
+
+    <p>
+        The world is a little brighter with you in it.
+    </p>
+
+    <p>
+        May Allah bless every step you take,
+        protect your beautiful heart, and fill
+        your future with goodness. Ameen. ??
+    </p>
+
+    <h2>Always & Forever, Bestie ??</h2>
+
+    <p>14 . 10 . 2026</p>
+
+    <button onclick="makeHearts()">
+        Send More Love ??
+    </button>
+
+    <button onclick="go(3)">
+        Replay My Birthday Surprise ?
+    </button>
+
+    <div class="footer">
+        End of this little website...<br>
+        Never the end of our memories. ??
+    </div>
+</div>
+</section>
+
+<script>
+/* CHANGE THIS TO YOUR OWN SECRET PASSWORD */
+const correctPassword = "Emann2026";
+
+function go(number) {
+    document.querySelectorAll(".page").forEach(function(page) {
+        page.classList.remove("active");
+    });
+
+    document.getElementById("p" + number).classList.add("active");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    makeHearts();
+}
+
+function unlock() {
+    const entered =
+        document.getElementById("password").value.trim();
+
+    if (entered.toLowerCase() === correctPassword.toLowerCase()) {
+        document.getElementById("error").textContent = "";
+        document.getElementById("password").value = "";
+        go(3);
+    } else {
+        document.getElementById("error").textContent =
+            "Oops, bestie! Try again. Hint: Emann + 2026 ??";
+    }
+}
+
+document.getElementById("password").addEventListener(
+    "keydown", function(event) {
+        if (event.key === "Enter") unlock();
+    }
+);
+
+function showLetter() {
+    document.getElementById("letter").style.display = "block";
+    makeHearts();
+}
+
+function revealGift() {
+    document.getElementById("giftMessage").style.display = "block";
+    makeHearts();
+
+    document.getElementById("giftMessage").scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+}
+
+function blowCandles() {
+    document.getElementById("cake").textContent = "??";
+
+    document.getElementById("cakeText").textContent =
+        "Wish made! May Allah make your beautiful wishes come true. ??";
+
+    makeHearts();
+}
+
+function relightCandles() {
+    document.getElementById("cake").textContent = "??";
+
+    document.getElementById("cakeText").textContent =
+        "Your candles are back! Make another wish, Emann! ?";
+}
+
+/* FLOATING HEARTS */
+function makeHearts() {
+    const symbols = ["??", "??", "??", "??", "??", "?", "??"];
+
+    for (let i = 0; i < 16; i++) {
+        const heart = document.createElement("span");
+
+        heart.className = "heart";
+        heart.textContent =
+            symbols[Math.floor(Math.random() * symbols.length)];
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (16 + Math.random() * 18) + "px";
+        heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(function() {
+            heart.remove();
+        }, 7500);
+    }
+}
+
+/* SOFT PIANO-STYLE MELODY, GENERATED IN THE BROWSER */
+let audioContext = null;
+let musicTimer = null;
+let musicPlaying = false;
+let noteIndex = 0;
+
+const melody = [
+    [523.25, 0.35],
+    [659.25, 0.35],
+    [783.99, 0.55],
+    [659.25, 0.35],
+    [587.33, 0.35],
+    [698.46, 0.55],
+    [659.25, 0.35],
+    [523.25, 0.7],
+    [493.88, 0.35],
+    [587.33, 0.35],
+    [659.25, 0.7],
+    [523.25, 0.7]
+];
+
+function playNote(frequency, duration) {
+    if (!audioContext || !musicPlaying) return;
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.value = frequency;
+
+    gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+        0.09, audioContext.currentTime + 0.04
+    );
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001, audioContext.currentTime + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration + 0.05);
+}
+
+function playNextNote() {
+    if (!musicPlaying) return;
+
+    const note = melody[noteIndex];
+
+    playNote(note[0], note[1]);
+
+    noteIndex = (noteIndex + 1) % melody.length;
+
+    musicTimer = setTimeout(
+        playNextNote, (note[1] + 0.12) * 1000
+    );
+}
+
+async function toggleMusic() {
+    const button = document.querySelector(".music-button");
+
+    if (musicPlaying) {
+        musicPlaying = false;
+        clearTimeout(musicTimer);
+        button.textContent = "?? Music: OFF";
+        return;
+    }
+
+    try {
+        if (!audioContext) {
+            const AudioClass =
+                window.AudioContext || window.webkitAudioContext;
+
+            if (!AudioClass) {
+                button.textContent = "Music unavailable";
+                return;
+            }
+
+            audioContext = new AudioClass();
+        }
+
+        if (audioContext.state === "suspended") {
+            await audioContext.resume();
+        }
+
+        musicPlaying = true;
+        button.textContent = "?? Music: ON";
+        playNextNote();
+    } catch (error) {
+        button.textContent = "Tap to retry music";
+    }
+}
+
+makeHearts();
+</script>
+
+</body>
+</html>
